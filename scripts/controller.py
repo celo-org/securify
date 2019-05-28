@@ -21,9 +21,9 @@ limitations under the License.
 import argparse
 import logging
 
-from . import solc_project
+# from . import solc_project
 from . import truffle_project
-from . import solc_file
+# from . import solc_file
 
 
 class Controller:
@@ -58,15 +58,15 @@ class Controller:
         self.args, securify_flags = self._parser.parse_known_args()
 
         # Check for single file
-        if self.args.project.endswith(".sol"):
-            self._project = solc_file.SolcFile(
-                self.args.project, self.args, securify_flags)
-        elif self.args.truffle:
-            self._project = truffle_project.TruffleProject(
-                self.args.project, self.args, securify_flags)
-        else:
-            self._project = solc_project.SolcProject(
-                self.args.project, self.args, securify_flags)
+        # if self.args.project.endswith(".sol"):
+        #     self._project = solc_file.SolcFile(
+        #         self.args.project, self.args, securify_flags)
+        # elif self.args.truffle:
+        self._project = truffle_project.TruffleProject(
+            self.args.project, self.args, securify_flags)
+        # else:
+        #     self._project = solc_project.SolcProject(
+        #         self.args.project, self.args, securify_flags)
 
         if self.args.verbose:
             level = logging.DEBUG

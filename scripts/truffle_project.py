@@ -22,6 +22,7 @@ import logging
 import os
 import pathlib
 import subprocess
+import sys
 
 from . import utils
 from . import project
@@ -33,18 +34,18 @@ class TruffleProject(project.Project):
 
     def __init__(self, project_root, args, securify_flags):
         super().__init__(project_root, args, securify_flags)
-        self.build_dir = self.project_root / pathlib.Path("build/contracts/")
+        self.build_dir = self.project_root / pathlib.Path("build/tmp/contracts/")
 
     def compile_(self, compilation_output):
-        with utils.working_directory(self.project_root):
-            try:
-                output = subprocess.check_output(["truffle", "compile"],
-                                                 universal_newlines=True,
-                                                 stderr=subprocess.STDOUT)
-                logging.debug(output)
-            except subprocess.CalledProcessError as e:
-                logging.error("Error compiling Truffle project")
-                utils.handle_process_output_and_exit(e)
+        # with utils.working_directory(self.project_root):
+            # try:
+            #     output = subprocess.check_output(["truffle", "compile"],
+            #                                      universal_newlines=True,
+            #                                      stderr=subprocess.STDOUT)
+            #     logging.debug(output)
+            # except subprocess.CalledProcessError as e:
+            #     logging.error("Error compiling Truffle project")
+            #     utils.handle_process_output_and_exit(e)
 
         self._merge_compiled_files(compilation_output)
 
@@ -59,7 +60,8 @@ class TruffleProject(project.Project):
                     data = json.load(f)
                 contract_path = data["sourcePath"]
                 contract_name = data["contractName"]
-                # check if library contract
+
+                # # check if library contract
                 if not pathlib.Path(contract_path).is_file():
                     node_modules_dir = utils.find_node_modules_dir(
                         self.project_root)

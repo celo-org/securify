@@ -1,2 +1,1 @@
-py-solc-x>=0.3
 psutil

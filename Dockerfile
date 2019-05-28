@@ -29,15 +29,15 @@ RUN apt-get update && apt-get -y install\
         python3-pip
 
 COPY requirements.txt /tmp/
-RUN pip3 install --user -r /tmp/requirements.txt
+RUN pip3 install -r /tmp/requirements.txt
 
 # install truffle for project compilation
-RUN apt-get update && apt-get install -y\
-      nodejs\
-      npm
+# RUN apt-get update && apt-get install -y\
+#       nodejs\
+#       npm
 
-ARG truffle="latest"
-RUN npm install -g truffle@$truffle
+# ARG truffle="latest"
+# RUN npm install -g truffle@$truffle
 
 WORKDIR /sec
 
@@ -52,7 +52,7 @@ COPY . /sec
 RUN ./gradlew jar
 
 # Solidity example
-COPY src/test/resources/solidity/transaction-reordering.sol /project/example.sol
+# COPY src/test/resources/solidity/transaction-reordering.sol /project/example.sol
 
 # this Python script allows arguments to be passed (e.g. "--truffle").
-ENTRYPOINT ["python3", "docker_run_securify.py", "-p", "/project"]
+# ENTRYPOINT ["python3", "docker_run_securify.py", "-p", "/project"]
